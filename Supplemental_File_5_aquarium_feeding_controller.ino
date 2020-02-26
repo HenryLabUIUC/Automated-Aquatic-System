@@ -1,20 +1,18 @@
 //This sketch is for the feeding system that delivers liquid food to the automated marine aquatic system.  This is a final revised working version.
-//The latest change was to move the stir cycle out of the feeding loop and only have it mix at 5 min before the hour. This turns out to be critical,
-//as before there was too much air generated in the food being pumped and this caused pump faliures due to the the check valves staying open and 
-//pump failures. Currently the timing of feedings is set to once every two hours for 24 mins. In addition, the time for pumping is set to 30 secs
-//which is enough for the pump to complete its cycle.  This may need to be changed for larger volumes. Possible improvements include some way to 
-//continue showing the red fault LED once feeding cycle starts or stops (now if will change to blue or green momentarily until the sensor again 
-//detects the low food level). Also have added a way to check that food entered the line, and if not, it sends a text, and to send a text if food
-//never leaves the line. Also once a low food alert is sent, this triggers the warning LED warning light to turn RED, but if the sensor no longer
-//sees a low level the red status light will remain lit until the next feeding cycle begins or ends, or is reset at 55 mins past the hour for a stir
-//cylce.
+//This program and the controller works in conjunction with the peristalitic pump and its controller. The latest change was to move the stir cycle
+//out of the feeding loop and only have it mix at 5 min before the hour to allow any air bubbles to be removed. Currently the timing of feedings is
+//set to once every two hours for 24 mins. In addition, the time for pumping is set to 30 secs which is enough for the pewristaltic pump to complete
+//its cycle.  This may need to be changed (lengthned) for larger volumes. Possible improvements include some way to continue showing the red fault
+//LED once a feeding cycle starts or stops (now if will change to blue or green momentarily until the sensor again detects the low food level). Also,
+//I have added a way to check that food entered the line, and if not, it sends a text, and sends a text if food never leaves the line. Once a low
+//food alert is sent, this triggers the warning LED warning light to turn RED, but if the sensor no longer sees a low level the red status light will
+//remain lit until the next feeding cycle begins or ends, or is reset at 55 mins past the hour for a stir cylce.
 
 //Uses date and time functions from a DS1307 RTC connected via I2C, with battery backup.The program controls feeding cycles of the automated aquarium
 //system for Crepidula snails (controls the aquarium bypass valve, stir plate, syringe pump and air pump). Stir plate and aquarium pump are controlled
-//via relays for 120 volts AC in the remote outlet box. The New Era NE-1010 syringe pump has faster speeds compared to the NE-1000 and can deliver
-//higher pressures when using gas tight glass syringes. The controller also monitors food levels in the reservoir using an NPN capacitance sensor, and 
-//sends a text message if there is a problem (e.g., food supply is Low). The script also incorporates alarm test to avoid rapidly resending low food text
-//alerts. The alarm status is reset only at 55 mons past the hour so texts should only be repeated once an hour. System, also monitors food passage through
+//via relays for 120 volts AC in the remote outlet box. The controller  monitors food levels in the reservoir using an NPN capacitance sensor, and 
+//sends a text message if there is a problem (e.g., food supply is Low). The script also incorporates an alarm test to avoid rapidly resending low food text
+//alerts. The alarm status is reset only at 55 mons past the hour so texts should only be repeated once an hour. The system also monitors food passage through
 //the feeding tube using a 38KHz pulsed IR LED and sensor. The Ethernet sheild uses pins 10 (used to deselect W5100 to disable it, set as output and set HIGH,
 //but we are using it so no need to do that here), 11, 12, 13, as well as pin 4, which is used two deselect SD card, set as output and set to HIGH, which is
 //needed here, as we are not using the SD card). (Thus, we have Ethernet W5100 enabled and disable the SD card). If using W5200 or later, one would need a 
@@ -23,7 +21,7 @@
 //to avoid resending low food text alerts. Define them as OUTPUT pins, setting them to ground each LED to light them To write to the LCD display we currently
 //use the TX pin 1, but this creates problems if one uploads code while display is connected. This can corrupt the display's eprom settings requiring that it 
 //be reset using Afrtuit's LCD script. It would be better to use Software Serial and redefine the TX pin (to analog pin A3, as it is the only other available,
-//free pin). First created by J. Henry on July 30, 2018, continuously updated until Dec. 9, 2019. Thgis porject funded by and NSF EDGE grant (no. 1827533).
+//free pin). First created by J. Henry on July 30, 2018, continuously updated until Dec. 9, 2019. This project was funded by and NSF EDGE grant (no. 1827533).
 //to J.J. Henry.
 
 #include "Arduino.h"
@@ -60,7 +58,7 @@ int alarm = 0;
 int count = 0;//part of air pump alert
 
 //ethernet setup
-byte mac[] = { XX, XX, XX, XX, XX, XX };// user definable, unique mac address for this device need to change this!!
+byte mac[] = { XX, XX, XX, XX, XX, XX };// user definable, unique mac address for this device. You need to creat this!! Check with your IT personnel.
 // change following network settings to yours
 IPAddress ip( ##, ##, ##, ## );       // unique ip address for this device need to change this!!
 IPAddress gateway( ##, ##, ##, ## );    // change to internet access via router, not always needed, unique address, need to change this!!

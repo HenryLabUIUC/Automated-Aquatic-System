@@ -3,7 +3,7 @@
 //IDE, set the Board to ATtiny25/45/85; set the Processor to ATtiny85; set the Clock to Internal 1 MHz.
 //This last step is critical! Never set this to an external clock! Port does not need to be specified for 
 //the Sparkfun USB programmer.  Also set the Programmer to USBtinyISP (normally it is set to AVRISP mkII for the Uno).
-//Sketch by J. J. Henry; January, 2019 UIUC.  This propject was funded by and NSF EDGER grant (no 1827533).
+//Sketch by J. J. Henry; January, 2019 UIUC.  This project was funded by and NSF EDGER grant (no 1827533).
 
 void setup() {
   
