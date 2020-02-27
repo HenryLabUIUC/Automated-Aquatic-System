@@ -1,5 +1,5 @@
 //This sketch is for the feeding system that delivers liquid food to the automated marine aquatic system.  This is a final revised working version.
-//This program and the controller works in conjunction with the peristalitic pump and its controller. The latest change was to move the stir cycle
+//This program and the controller works in conjunction with the peristaltic pump and its controller. The latest change was to move the stir cycle
 //out of the feeding loop and only have it mix at 5 min before the hour to allow any air bubbles to be removed. Currently the timing of feedings is
 //set to once every two hours for 24 mins. In addition, the time for pumping is set to 30 secs which is enough for the pewristaltic pump to complete
 //its cycle.  This may need to be changed (lengthned) for larger volumes. Possible improvements include some way to continue showing the red fault
